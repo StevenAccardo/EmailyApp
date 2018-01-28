@@ -13,7 +13,7 @@ const app = express();
 //res represents the outgoing response object
 //res.send immediatly closes the response after sending back the object included in the ()
 app.get('/', (req, res) => {
-  res.send({ hi: 'there' });
+  res.send({ bye: 'buddy' });
 });
 
 //whenever heroku runs our application, it can inject environment variables, which are variables that are set in the underlying runtime which Node is running on top of.
