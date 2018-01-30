@@ -31,7 +31,9 @@ passport.use(
       clientSecret: keys.googleClientSecret,
       //lets google know where to direct the user back too, after they have authorized access via google's screen.
       //make sure you register the callbackURL with google.
-      callbackURL: '/auth/google/callback'
+      callbackURL: '/auth/google/callback',
+      //this stops the google oauth error we were getting from the heroku servers cancelling the https, and changing it to an http once it went through the heroku proxy.
+      proxy: true
     },
     //accesstoken allows us to reach back to google to get data that the user authorized us to use
     //refreshToken would allow us to refresh the accesstoken after it has expired
