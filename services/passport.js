@@ -38,25 +38,23 @@ passport.use(
     //accesstoken allows us to reach back to google to get data that the user authorized us to use
     //refreshToken would allow us to refresh the accesstoken after it has expired
     //profile has all of their information
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       //checks to see if we already have a user in the database
-      User.findOne({ googleId: profile.id })
-        //existingUser is null if there in not a record already stored
-        .then(existingUser => {
-          if (existingUser) {
-            //we already have this user in a collection
-            //done lets google know that we are finished on our side
-            //arg1 is an error message, if applicable
-            //arg2 is the result from the query
-            done(null, existingUser);
-          } else {
-            //Creates our model instance using the model class user
-            //.save() will actually persist/save that instance to the mongodb
-            new User({ googleId: profile.id })
-              .save()
-              .then(user => done(null, user));
-          }
-        });
+      //existingUser is null if there in not a record already stored
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        //we already have this user in a collection
+        //done lets google know that we are finished on our side
+        //arg1 is an error message, if applicable
+        //arg2 is the result from the query
+        return done(null, existingUser);
+      }
+
+      //Creates our model instance using the model class user
+      //.save() will actually persist/save that instance to the mongodb
+      const user = await new User({ googleId: profile.id }).save();
+      done(null, user);
     }
   )
 );
