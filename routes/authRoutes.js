@@ -10,12 +10,21 @@ module.exports = app => {
   );
 
   //this is the route for the callback after the user has authenticated
-  app.get('/auth/google/callback', passport.authenticate('google'));
+  //passport.authenticate is actually a middleware
+  //after the authentication has been completed, the 3rd arg function is called and the user is redirected to the passed in relative url
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      res.redirect('/surveys');
+    }
+  );
 
   app.get('/api/logout', (req, res) => {
     //deletes all user ids
     req.logout();
-    res.send(req.user);
+    //reroutes user to root directory
+    res.redirect('/');
   });
 
   app.get('/api/current_user', (req, res) => {
