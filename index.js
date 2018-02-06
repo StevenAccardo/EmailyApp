@@ -12,7 +12,8 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 
-require('./models/user');
+require('./models/User');
+require('./models/Survey');
 //just importing, and not using. no vairable name needed.
 require('./services/passport');
 
@@ -50,6 +51,7 @@ app.use(passport.session());
 //it is then immediatly invoked by the second set of parens and passed the app variable.
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 //Only happens in production
 if (process.env.NODE_ENV === 'production') {
