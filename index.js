@@ -71,4 +71,6 @@ if (process.env.NODE_ENV === 'production') {
 //whenever heroku runs our application, it can inject environment variables, which are variables that are set in the underlying runtime which Node is running on top of.
 const PORT = process.env.PORT || 5000;
 //express app tells node that it wants listen on a certain port for incoming http requests.
-app.listen(PORT);
+app.listen(PORT, function(err) {
+  console.log('pid is ', process.pid);
+});

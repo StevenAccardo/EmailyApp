@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER } from './types.js';
+import { FETCH_USER, FETCH_SURVEYS } from './types.js';
 
 //This is a different way of working with action creators using the reduxThunk library. instead of returning an action, if reduxThunk sees us return a function, it will immediately execute that function and pass it the dispatch variable as an argument.
 export const fetchUser = () => async dispatch => {
@@ -23,4 +23,10 @@ export const submitSurvey = (values, history) => async dispatch => {
   //history object made available by SURVEYNEW file, passed as prop.
   history.push('/surveys');
   dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+export const fetchSurveys = () => async dispatch => {
+  const res = await axios.get('/api/surveys');
+
+  dispatch({ type: FETCH_SURVEYS, payload: res.data });
 };

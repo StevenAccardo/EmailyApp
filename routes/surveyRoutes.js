@@ -1,5 +1,9 @@
 //CREATES A USER DESIGNED SURVEY AND SENDS OUT A BIG E-MAIL TO RECIPIENT LIST
-
+const _ = require('lodash');
+const Path = require('path-parser');
+//url is a module that comes packaged up with Node.
+//Helps us parse URI paths
+const { URL } = require('url');
 //Importing mongoose and then importing the model class through mongoose instead of requiring it in striaght from the models directory because often times testing libraries will throw errors when they see you have imported a model class more than once.
 const mongoose = require('mongoose');
 //Imports the custom request handler
@@ -12,10 +16,50 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
+  app.get('/api/surveys', requireLogin, async (req, res) => {
+    const surveys = await Survey.find({ _user: req.user.id }).select({
+      recipients: false
+    });
+    res.send(surveys);
+  });
+
   //Added this as the route for when a recipient clicks yes or no in the user's e-mail
   //The link is in the surveyTemplate.js file
-  app.get('/api/surveys/thanks', (req, res) => {
+  app.get('/api/surveys/:surveyId/:choice', (req, res) => {
     res.send('Thanks for voting!');
+  });
+
+  //accepts the post requests from sendgrid that contain the client responses to the survey
+  app.post('/api/surveys/webhooks', (req, res) => {
+    const p = new Path('/api/surveys/:surveyId/:choice');
+
+    _.chain(req.body)
+      .map(({ email, url }) => {
+        const match = p.test(new URL(url).pathname);
+        if (match) {
+          return { email, surveyId: match.surveyId, choice: match.choice };
+        }
+      })
+      .compact()
+      .uniqBy('email', 'surveyId')
+      .each(({ surveyId, email, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email: email, responded: false }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { 'recipients.$.responded': true },
+            lastResponded: new Date()
+          }
+        ).exec();
+      })
+      .value();
+
+    res.send({});
   });
 
   //Handles the POST request for a user creating a new survey that needs to be saved to the database.
