@@ -10,5 +10,5 @@ const userSchema = new Schema({
 });
 
 //creates model class. 1st arg is name of model class/collection. 2nd arg is the schema.
-//if we try and create a dupplicate model class, it will not overwrite the original
+//if we try and create a dupplicate model class, it will not overwrite the original.
 mongoose.model('users', userSchema);
