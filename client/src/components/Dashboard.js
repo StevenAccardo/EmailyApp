@@ -10,8 +10,10 @@ const Dashboard = () => {
       <SurveyList />
       <div className="fixed-action-btn">
         {/* Uses the materialize library to create a button with an icon in it. */}
-        <Link to="/surveys/new" className="btn-floating btn-large red">
-          <i className="material-icons">add</i>
+        <Link to="/surveys/new">
+          <button className="survey-add btn btn-lg btn-primary my-3 float-right rounded-circle">
+            <i className="material-icons">add</i>
+          </button>
         </Link>
       </div>
     </div>

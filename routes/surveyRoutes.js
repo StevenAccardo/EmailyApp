@@ -16,7 +16,10 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
+  //Hits route, confirms auth, pulls the user
+  //Passport queries the DB for the user, and if found, attaches the user propety to the req object
   app.get('/api/surveys', requireLogin, async (req, res) => {
+    //.select({ recipients: false}) tells mongoose to grab all of the survey data, except for the recipient list.
     const surveys = await Survey.find({ _user: req.user.id }).select({
       recipients: false
     });

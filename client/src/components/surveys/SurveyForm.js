@@ -1,7 +1,5 @@
 //Component for reduxForm that user fills out to create new survey.
 
-//importing so we can use the _.map function to iterate over the array and create a new array after manipulation
-import _ from 'lodash';
 import React, { Component } from 'react';
 //reduxForm helper that allows our form to communicate with our redux store.
 //reduxForm helper is nearly identical to the connect helper as far as its functionality.
@@ -16,7 +14,7 @@ import formFields from './formFields';
 class SurveyForm extends Component {
   //helper function to keep the
   renderFields() {
-    return _.map(formFields, ({ label, name }) => {
+    return formFields.map(({ label, name }) => {
       //In order for the Field component to render properly we have to pass is certian manditory properties to tell it how to behave.
       //We can add anytype of custom props to be passed on to children i.e. the label prop below
       return (
@@ -37,12 +35,10 @@ class SurveyForm extends Component {
   render() {
     return (
       <div>
-        <form
-          //The handleSubmit method is provided by the redux-form library as a prop on the form element.
-          //Whatever function we patt to the handleSubmit method will be called whenever the user tries to submit the form.
-          //We pass the handleSubmit function another function which will change the state on the SurveyNew component. We are not immediately incoking the onSurveySubmit function because if so, it would be ran as soon as the interperter read it, instead, we want it to be exceuted when the user clicks submit.
-          onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}
-        >
+        {/* The handleSubmit method is provided by the redux-form library as a prop on the form element.
+          Whatever function we putt to the handleSubmit method will be called whenever the user tries to submit the form.
+        We pass the handleSubmit function another function which will change the state on the SurveyNew component. We are not immediately invoking the onSurveySubmit function because if so, it would be ran as soon as the interperter read it, instead, we want it to be exceuted when the user clicks submit. */}
+        <form onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
           {/* In order for the Field component to render properly we have to pass is certian manditory properties to tell it how to behave. */}
           {/* <Field
             type="text"
@@ -51,12 +47,11 @@ class SurveyForm extends Component {
             component="input"
           /> */}
           {this.renderFields()}
-          <Link to="/surveys" className="red btn-flat white-text">
+          <Link to="/surveys" className="btn btn-danger">
             Cancel
           </Link>
-          <button type="submit" className="teal btn-flat right white-text">
+          <button type="submit" className="btn btn-primary float-right">
             Next
-            <i className="material-icons right">done</i>
           </button>
         </form>
       </div>
@@ -72,7 +67,7 @@ function validate(values) {
   errors.recipients = validateEmails(values.recipients || '');
 
   //Uses lodash .each() method to itereate over each field, pull the value of the name property off, and then use that as the key on the values object to see if there is a value. If there is not, then it adds an error message to the errors object under that label name.
-  _.each(formFields, ({ name }) => {
+  formFields.forEach(({ name }) => {
     if (!values[name]) {
       errors[name] = 'You must provide a value';
     }

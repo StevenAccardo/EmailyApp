@@ -1,5 +1,3 @@
-//File naming convention says all files are camelCase unless we are exporting a class.
-
 //Custom middleware
 //next is a function we call when our middleware is complete, like done()
 module.exports = (req, res, next) => {

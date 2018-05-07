@@ -1,9 +1,8 @@
-//File naming convention says all files are camelCase unless we are exporting a class.
+//Custom middleware. Really just handles the case if a user hasn't been authenticated while trying to access a protected route.
 
-//Custom middleware
 //next is a function we call when our middleware is complete, like done()
 module.exports = (req, res, next) => {
-  //Checking to see if the user is logged in by checking to see if passport had created a user property.
+  //Checking to see if the user is logged in by checking to see if passport had created a user property on the request object.
   if (!req.user) {
     //If not logged in, return a status 401 which means unauthorized attempt, and an error message.
     //The server flow will not continue after the return, this protects the server from crashing or having issues

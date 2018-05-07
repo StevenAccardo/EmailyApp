@@ -25,6 +25,7 @@ export const submitSurvey = (values, history) => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
+//fetches the surveys that the user has created. Invoked in the surveysList file.
 export const fetchSurveys = () => async dispatch => {
   const res = await axios.get('/api/surveys');
 
