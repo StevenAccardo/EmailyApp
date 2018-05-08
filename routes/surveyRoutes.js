@@ -29,11 +29,14 @@ module.exports = app => {
   //Added this as the route for when a recipient clicks yes or no in the user's e-mail
   //The link is in the surveyTemplate.js file
   app.get('/api/surveys/:surveyId/:choice', (req, res) => {
+    console.log('thank you');
     res.send('Thanks for voting!');
   });
 
   //accepts the post requests from sendgrid that contain the client responses to the survey
   app.post('/api/surveys/webhooks', (req, res) => {
+    console.log('hit');
+    console.log('req.body', req.body);
     const p = new Path('/api/surveys/:surveyId/:choice');
 
     _.chain(req.body)
