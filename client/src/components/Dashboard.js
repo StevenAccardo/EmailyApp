@@ -32,6 +32,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
+        <h5 className="tallyMessage">Please allow approx. 1 min for client response to populate application. Thank you!</h5>
         <SurveyList />
         <div className="fixed-action-btn float-right">
           <div className="noCreditsMessage">{this.state.message}</div>

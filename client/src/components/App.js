@@ -20,7 +20,7 @@ class App extends Component {
         <BrowserRouter>
           <div className="container">
             <Header />
-            <h5 className="tallyMessage">Please allow approx. 1 min for client response to populate application. Thank you!</h5>
+
             {/* You can pass the exact={true} prop so the route will have to match exactly in order for the component to be renderded
             exact === exact={true} */}
             <Route exact path="/" component={Landing} />
