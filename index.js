@@ -72,5 +72,5 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = process.env.PORT || 5000;
 //express app tells node that it wants listen on a certain port for incoming http requests.
 app.listen(PORT, function(err) {
-  console.log('pid is ', process.pid);
+  console.log('Listening on port:', PORT);
 });

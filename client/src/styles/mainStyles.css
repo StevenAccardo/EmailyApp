@@ -22,6 +22,14 @@
   color: white;
 }
 
+.tallyMessage {
+  text-align: center;
+}
+
+.noCreditsMessage {
+  color: red;
+}
+
 .button-stripe {
   padding: 0.15rem 0.5rem;
 }
@@ -51,4 +59,23 @@ ul.list-group {
 .list-group li.list-group-item {
   background-color: #f2f2f2;
   border-color: black;
+}
+
+@media (max-width: 767px) {
+  .tallyMessage {
+    font-size: 0.8rem;
+  }
+
+  .surveyCard__title,
+  .surveyCard__body {
+    font-size: 0.7rem;
+  }
+
+  .survey__text__date {
+    margin-bottom: 0;
+  }
+
+  .noCreditsMessage {
+    font-size: 0.8rem;
+  }
 }

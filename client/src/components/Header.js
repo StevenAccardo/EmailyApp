@@ -47,7 +47,7 @@ class Header extends Component {
   render() {
     //Nav bar using materialize.js library
     return (
-      <Navbar expand="md" className="rounded-bottom mb-3">
+      <Navbar light expand="md" className="rounded-bottom mb-3">
         <NavbarBrand tag={RRNavLink} to={this.props.auth ? '/surveys' : '/'}>
           Emaily
         </NavbarBrand>
